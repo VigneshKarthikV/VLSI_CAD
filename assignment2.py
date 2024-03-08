@@ -52,18 +52,53 @@ class Node:
   def __str__(self):
     return str(self.data)
 
-size_of_blocks = [[1, 10, 10], [2, 10, 15], [3, 10, 5], [4, 5, 10], [5, 5, 5], [6, 15, 10], [7, 5, 5]]
+def read_text_file(filename):
+    blocks = []
+    with open(filename, 'r') as file:
+        for line in file:
+            row = [int(x.strip()) for x in line.split(',')]
+            blocks.append(row)
+    return blocks
+
+def read_polish_expression(filename):
+    count_operator = 0
+    count_operand = 0
+    with open(filename, 'r') as file:
+        input_string = file.read().strip()
+    polish_expression = []
+    for char in input_string:
+        if char.isdigit():
+            polish_expression.append(int(char))
+        else:
+            polish_expression.append(char)
+    for i in range(0, len(polish_expression)):
+        if(type(polish_expression[i]) is int):
+            count_operand = count_operand + 1
+        else:
+            count_operator = count_operator + 1
+    if(count_operand == count_operator):
+        raise ValueError("Invalid Polish expression")
+    return polish_expression
+
+def read_wire_length_matrix(filename):
+    wire_length_matrix = []
+    with open(filename, 'r') as file:
+        for line in file:
+            row = [int(x) for x in line.split()]
+            wire_length_matrix.append(row)
+    return wire_length_matrix
+
+size_of_blocks = read_text_file('blocks.txt')
+polish_expression = read_polish_expression('polish_expression.txt')
+wire_length_matrix = read_wire_length_matrix('wire_length_matrix.txt')
+
+def check_input_files(size_of_blocks, wire_length_matrix):
+    if(len(size_of_blocks) != len(wire_length_matrix)):
+        raise ValueError("Invalid input files. Number of blocks and wire length matrix do not match.")
+check_input_files(size_of_blocks, wire_length_matrix)
+
 coordinates = list()
-polish_expression = [1, 2, 'V', 3, 'H', 4, 5, 6, 'V', 'H', 7, 'V', 'H']
 stack1 = Stack()
-wire_length_matrix = [
-    [0, 1, 2, 1, 0, 1, 1],
-    [1, 0, 1, 2, 1, 2, 1],
-    [2, 1, 0, 1, 1, 1, 2],
-    [1, 2, 1, 0, 1, 1, 1],
-    [0, 1, 1, 1, 0, 1, 1],
-    [1, 2, 1, 1, 1, 0, 1],
-    [1, 1, 2, 1, 1, 1, 0]]
 
 def ptog(polish_expression):
   for ch in polish_expression:
@@ -336,14 +371,13 @@ def simulated_annealing_heuristic(node, coordinates, polish_expression, wire_len
     print(f"Area: {floorplan_area(coordinates2)}")
     print(f"Wiring length: {routing_length(wire_length_matrix, coordinates2)}")
     print(f"Score at iteration {i}: {curr_score}")
+    print(f"Current score - Previous score = {curr_score-prev_score}")
     if(curr_score-prev_score < 0):
-      print(f"Current score - Previous score = {curr_score-prev_score}")
       node = node1
       polish_expression = temp
       coordinates = coordinates2
     else:
       r = random.random()
-      print(f"Current score - Prev score = {curr_score-prev_score}")
       if(r < math.exp(-((curr_score-prev_score)/t))):
         node = node1
         polish_expression = temp
