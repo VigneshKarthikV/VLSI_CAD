@@ -6,51 +6,7 @@ import random
 import math
 import networkx as nx
 
-class Stack:
-    def __init__(self):
-        self.items = []
-
-    def isEmpty(self):
-        return self.items == []
-
-    def push(self, item):
-        self.items.append(item)
-
-    def pop(self):
-        return self.items.pop()
-
-    def peek(self):
-        return self.items[-1]
-
-def plot_block(coordinates):
-    fig, ax = plt.subplots()
-
-    for coordinate in coordinates:
-        block_id, width, height, x1, y1 = coordinate
-        ax.add_patch(plt.Rectangle((x1, y1), width, height, edgecolor='black', facecolor='none'))
-        # ax.text(x + width / 2, y + height / 2, f"Block [len(ax.patches)}", ha='center', va='center')
-        plt.text(x1+width/2, y1+height/2, block_id)
-    ax.set_aspect('equal', adjustable='box')
-    plt.xlabel('X-axis')
-    plt.ylabel('Y-axis')
-    plt.title('VLSI Layout')
-    ax.set_xlim(-45, 45)
-    ax.set_ylim(-60, 60)
-    plt.show()
-
-class Node:
-  def __init__(self, data):
-    self.data = data
-    self.left = None  # Reference to the left child node
-    self.right = None  # Reference to the right child node
-    self.parent = None
-    self.xl = 0
-    self.yl = 0
-    self.xr = 0
-    self.yr = 0
-
-  def __str__(self):
-    return str(self.data)
+# Function to read text files and extract block dimensions, polish expression and wire length matrix
 
 def read_text_file(filename):
     blocks = []
@@ -92,13 +48,85 @@ size_of_blocks = read_text_file('blocks.txt')
 polish_expression = read_polish_expression('polish_expression.txt')
 wire_length_matrix = read_wire_length_matrix('wire_length_matrix.txt')
 
+# Function to check if length of blocks dimension matrix and wire length matrix match
+
 def check_input_files(size_of_blocks, wire_length_matrix):
     if(len(size_of_blocks) != len(wire_length_matrix)):
         raise ValueError("Invalid input files. Number of blocks and wire length matrix do not match.")
 check_input_files(size_of_blocks, wire_length_matrix)
 
+# Defining a class for utilising stack functions: Push, Pop and Peek
+
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def isEmpty(self):
+        return self.items == []
+
+    def push(self, item):
+        self.items.append(item)
+
+    def pop(self):
+        return self.items.pop()
+
+    def peek(self):
+        return self.items[-1]
+
+# Function to plot the blocks using matplotlib
+
+def plot_block(coordinates):
+  # xmax, ymax = 0, 0
+  # xmin, ymin = 100000, 100000
+  # for i in range(0, len(coordinates)):
+  #   if(coordinates[i][3] > xmax):
+  #     xmax = coordinates[i][3]
+  #   if(coordinates[i][4] > ymax):
+  #     ymax = coordinates[i][4]
+  #   if(coordinates[i][3] < xmin):
+  #     xmin = coordinates[i][3]
+  #   if(coordinates[i][4] < ymin):
+  #     ymin = coordinates[i][4]
+
+    fig, ax = plt.subplots()
+
+    for coordinate in coordinates:
+        block_id, width, height, x1, y1 = coordinate
+        ax.add_patch(plt.Rectangle((x1, y1), width, height, edgecolor='black', facecolor='none'))
+        # ax.text(x + width / 2, y + height / 2, f"Block [len(ax.patches)}", ha='center', va='center')
+        plt.text(x1+width/2, y1+height/2, block_id)
+    ax.set_aspect('equal', adjustable='box')
+    plt.xlabel('X-axis')
+    plt.ylabel('Y-axis')
+    plt.title('VLSI Layout')
+    ax.set_xlim(-60, 60)
+    ax.set_ylim(-60, 60)
+    plt.show()
+
+# Initializing a stack and the coordinates of blocks
+
 coordinates = list()
+x1, y1 = 0, 0
+blocks = []
 stack1 = Stack()
+
+# Defining a class for accessing the nodes in the Polish expression
+
+class Node:
+  def __init__(self, data):
+    self.data = data
+    self.left = None  # Reference to the left child node
+    self.right = None  # Reference to the right child node
+    self.parent = None
+    self.xl = 0 # Left x coordinate
+    self.yl = 0 # Lower y coordinate
+    self.xr = 0 # Right x coordinate
+    self.yr = 0 # Upper y coordinate
+
+  def __str__(self):
+    return str(self.data)
+
+# Function to convert the given Polish expression into a binary tree using stack
 
 def ptog(polish_expression):
   for ch in polish_expression:
@@ -115,6 +143,8 @@ def ptog(polish_expression):
   return node
 print(ptog(polish_expression))
 node = ptog(polish_expression)
+
+# Function to create and traverse a binary tree by defining the operators as parent nodes and operands as child nodes
 
 x1, y1 = 0, 0
 coordinates1 = list()
@@ -198,7 +228,12 @@ def plot(node, coordinates):
   return coordinates
 coordinates1 = plot(node, coordinates1)
 print(coordinates1)
+
+# Plotting the created binary tree into a floorplan
+
 plot_block(coordinates1)
+
+# Function to compute the routing length between blocks
 
 def routing_length(wire_length_matrix, coordinates):
   length = 0
@@ -207,6 +242,8 @@ def routing_length(wire_length_matrix, coordinates):
       length = length + abs(((coordinates[i][1]/2 + coordinates[i][3]) - (coordinates[j][1]/2 + coordinates[j][3]))+((coordinates[i][2]/2 + coordinates[i][4]) - (coordinates[j][2]/2 + coordinates[j][4])))*wire_length_matrix[i][j]
   return length
 # routing_length(wire_length_matrix, coordinates1)
+
+# Function to compute area of the floorplan based on given Polish expression
 
 def floorplan_area(coordinates):
   xmin = 1000000
@@ -223,11 +260,13 @@ def floorplan_area(coordinates):
     if(coordinates[i][4] + coordinates[i][2] > ymax):
       ymax = coordinates[i][4] + coordinates[i][2]
   return ((xmax-xmin)*(ymax-ymin))
-# floorplan_area(coordinates1)
+
+# Function to compute cost function given as 0.75*A + 0.25*W
 
 def cost_floorplan(floorplan_area, routing_length):
   return ((0.75*floorplan_area)+(0.25*routing_length))
-# cost_floorplan(floorplan_area(coordinates1), routing_length(wire_length_matrix, coordinates1))
+
+# Definition of Move M1: To swap between two adjacent operands
 
 def m1(polish_expression):
   count = 0
@@ -239,7 +278,8 @@ def m1(polish_expression):
         polish_expression[i] = polish_expression[i] - polish_expression[i+1]
         count = 1
   return polish_expression
-# m1(polish_expression)
+
+# Definition of Move M2: To complement two adjacent operators between two operands
 
 def m2(polish_expression):
   count = 0
@@ -252,13 +292,16 @@ def m2(polish_expression):
         polish_expression[i] = temp
         count = 1
   return polish_expression
-# m2(polish_expression)
+
+# Function to find consecutive repeated operators to maintain a Normalized Polish Expression
 
 def find_consecutive_repeated_letters(arr):
     for i in range(len(arr) - 1):
         if arr[i] == arr[i + 1] and arr[i] in ['H', 'V']:
             return 1
     return None
+
+# Definition of Move M3: To swap between two adjacent operator and operand
 
 def m3(polish_expression):
   count = 0
@@ -269,6 +312,7 @@ def m3(polish_expression):
       count_operator = count_operator + 1
     elif(type(polish_expression[i]) is int):
       count_operand = count_operand + 1
+    # print(count_operand, count_operator)
     if(((polish_expression[i] == 'H' or polish_expression[i] == 'V') and (type(polish_expression[i+1]) is int)) or (type(polish_expression[i]) is int and (polish_expression[i+1] == 'H' or polish_expression[i+1] == 'V'))):
       if(random.random() < 0.5 and count == 0 and count_operand-1 > count_operator+1):
         temp = polish_expression[i+1]
@@ -281,36 +325,48 @@ def m3(polish_expression):
           polish_expression[i+1] = polish_expression[i]
           polish_expression[i] = temp
   return polish_expression
-# m3(polish_expression)
+m3(polish_expression)
+
+# Function to plot Horizontal Polar Graphs
 
 def horizontal_polar(coordinates):
   G = nx.Graph()
-  for i in range(0, len(coordinates)):
-    G.add_node(coordinates[i][3])
+  for i in range(0, len(coordinates1)):
+    G.add_node(coordinates1[i][3])
   x_list = np.array(G.nodes())
   for i in range(0, len(x_list)):
-    for j in range(0, len(coordinates)):
-      if(coordinates[j][3] == x_list[i]):
-        G.add_edge(coordinates[j][3]+coordinates[j][1], x_list[i])
+    for j in range(0, len(coordinates1)):
+      if(coordinates1[j][3] == x_list[i]):
+        G.add_edge(coordinates1[j][3]+coordinates1[j][1], x_list[i])
+
   nx.draw(G, with_labels=True, node_color='lightblue', node_size=2000, font_size=15, font_weight='bold')
   plt.show()
 horizontal_polar(coordinates1)
 
+# Function to plot Vertical Polar Graphs
+
 def vertical_polar(coordinates):
   G = nx.Graph()
-  for i in range(0, len(coordinates)):
-    G.add_node(coordinates[i][4])
+  for i in range(0, len(coordinates1)):
+    G.add_node(coordinates1[i][4])
   y_list = np.array(G.nodes())
   for i in range(0, len(y_list)):
-    for j in range(0, len(coordinates)):
-      if(coordinates[j][4] == y_list[i]):
-        G.add_edge(coordinates[j][4]+coordinates[j][2], y_list[i])
+    for j in range(0, len(coordinates1)):
+      if(coordinates1[j][4] == y_list[i]):
+        G.add_edge(coordinates1[j][4]+coordinates1[j][2], y_list[i])
+
   nx.draw(G, with_labels=True, node_color='lightblue', node_size=2000, font_size=15, font_weight='bold')
   plt.show()
 vertical_polar(coordinates1)
 
+# Function to perform a greedy method of Simulated annealing: To only accept solutions that are better than its best iteration
+
 def simulated_annealing_greedy(node, coordinates, polish_expression, wire_length_matrix):
+  global_cost_curve = list()
+  greedy_cost_curve = list()
   initial_score = cost_floorplan(floorplan_area(coordinates), routing_length(wire_length_matrix, coordinates))
+  global_cost_curve.append(initial_score)
+  greedy_cost_curve.append(initial_score)
   print(f"Initial score: {initial_score}")
   plot_block(coordinates)
   best_score = initial_score
@@ -331,22 +387,30 @@ def simulated_annealing_greedy(node, coordinates, polish_expression, wire_length
     node1 = ptog(temp)
     coordinates2 = plot(node1, coordinates2)
     score = cost_floorplan(floorplan_area(coordinates2), routing_length(wire_length_matrix, coordinates2))
-    print(f"Polish expression: {polish_expression}")
-    print(f"Area: {floorplan_area(coordinates2)}")
-    print(f"Wiring length: {routing_length(wire_length_matrix, coordinates2)}")
+    print(polish_expression)
     print(f"Score at iteration {i}: {score}")
+    global_cost_curve.append(score)
     if(score-best_score < 0):
       print(f"Score - best score = {score-best_score}")
       best_score = score
       node = node1
       polish_expression = temp
       coordinates = coordinates2
-    plot_block(coordinates2)
-  return node, coordinates, polish_expression
-simulated_annealing_greedy(node, coordinates1, polish_expression, wire_length_matrix)
+      greedy_cost_curve.append(best_score)
+      plot_block(coordinates2)
+  return node, coordinates, polish_expression, global_cost_curve, greedy_cost_curve
+node2, coordinates3, polish_expression2, global_cost_curve1, greedy_cost_curve = simulated_annealing_greedy(node, coordinates1, polish_expression, wire_length_matrix)
+
+''' Function to perform a Heuristic method of Simulated annealing: To accept solution generated by perturbations if score is lesser than best score or if difference in score
+    is lesser than some specified value. It is chosen with a random probability
+'''
 
 def simulated_annealing_heuristic(node, coordinates, polish_expression, wire_length_matrix, t):
+  global_cost_curve = list()
+  heuristic_cost_curve = list()
   initial_score = cost_floorplan(floorplan_area(coordinates), routing_length(wire_length_matrix, coordinates))
+  global_cost_curve.append(initial_score)
+  heuristic_cost_curve.append(initial_score)
   print(f"Initial score: {initial_score}")
   plot_block(coordinates)
   prev_score = initial_score
@@ -371,6 +435,7 @@ def simulated_annealing_heuristic(node, coordinates, polish_expression, wire_len
     print(f"Area: {floorplan_area(coordinates2)}")
     print(f"Wiring length: {routing_length(wire_length_matrix, coordinates2)}")
     print(f"Score at iteration {i}: {curr_score}")
+    global_cost_curve.append(curr_score)
     print(f"Current score - Previous score = {curr_score-prev_score}")
     if(curr_score-prev_score < 0):
       node = node1
@@ -379,11 +444,50 @@ def simulated_annealing_heuristic(node, coordinates, polish_expression, wire_len
     else:
       r = random.random()
       if(r < math.exp(-((curr_score-prev_score)/t))):
+        print(f"{r} < {math.exp(-((curr_score-prev_score)/t))} trying to find a global minima")
         node = node1
         polish_expression = temp
         coordinates = coordinates2
+        heuristic_cost_curve.append(curr_score)
     plot_block(coordinates2)
     prev_score = curr_score
     t = 0.6*t
-  return node, coordinates, polish_expression
-simulated_annealing_heuristic(node, coordinates1, polish_expression, wire_length_matrix, t=150)
+  return node, coordinates, polish_expression, global_cost_curve, heuristic_cost_curve
+node2, coordinates3, polish_expression2, global_cost_curve2, heuristic_cost_curve = simulated_annealing_heuristic(node, coordinates1, polish_expression, wire_length_matrix, t=150)
+
+def plot_lists1(list1, list2):
+    plt.figure(figsize=(10, 5))
+    plt.subplot(1, 2, 1)
+    plt.plot(list1)
+    plt.xlabel('i')
+    plt.ylabel('Global cost')
+    plt.title('Global cost function')
+
+    plt.subplot(1, 2, 2)
+    plt.plot(list2)
+    plt.xlabel('i')
+    plt.ylabel('Greedy cost')
+    plt.title('Greedy cost function')
+
+    plt.tight_layout()
+    plt.show()
+
+def plot_lists2(list1, list2):
+    plt.figure(figsize=(10, 5))
+    plt.subplot(1, 2, 1)
+    plt.plot(list1)
+    plt.xlabel('i')
+    plt.ylabel('Global cost')
+    plt.title('Global cost function')
+
+    plt.subplot(1, 2, 2)
+    plt.plot(list2)
+    plt.xlabel('i')
+    plt.ylabel('Heuristic cost')
+    plt.title('Heuristic cost function')
+
+    plt.tight_layout()
+    plt.show()
+
+plot_lists1(global_cost_curve1, greedy_cost_curve)
+plot_lists2(global_cost_curve2, heuristic_cost_curve)
