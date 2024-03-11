@@ -1,5 +1,5 @@
-./__pycache__
-./.vscode
-./.ipynb_checkpoints
-./.pytest_cache
-./Assignment2 (5).ipynb:Zone.Identifier
+__pycache__/*
+.vscode/*
+.ipynb_checkpoints/*
+.pytest_cache/*
+*.ipynb:Zone.Identifier
