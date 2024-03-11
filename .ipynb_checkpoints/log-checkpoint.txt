@@ -1,0 +1,152 @@
+-------------------- Simulated Annealing Greedy --------------------
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 6, 'H', 7, 'V', 'H']
+Area: 1600
+Wiring length: 1270.0
+Score at iteration 0: 1517.5
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 6, 'H', 7, 'V', 'H']
+Area: 1600
+Wiring length: 1270.0
+Score at iteration 1: 1517.5
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 'H', 6, 7, 'V', 'H']
+Area: 1600
+Wiring length: 1270.0
+Score at iteration 2: 1517.5
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 'H', 6, 7, 'H', 'V']
+Area: 1800
+Wiring length: 1320.0
+Score at iteration 3: 1680.0
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 'H', 7, 6, 'H', 'V']
+Area: 1800
+Wiring length: 1280.0
+Score at iteration 4: 1670.0
+-------------------- Simulated Annealing Heuristic --------------------
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 'H', 7, 6, 'V', 'H']
+Area: 1600
+Wiring length: 1160.0
+Score at iteration 0: 1490.0
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 'H', 7, 6, 'V', 'H']
+Area: 1600
+Wiring length: 1160.0
+Score at iteration 1: 1490.0
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 'H', 7, 6, 'V', 'H']
+Area: 1600
+Wiring length: 1160.0
+Score at iteration 2: 1490.0
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 'H', 7, 6, 'V', 'H']
+Area: 1600
+Wiring length: 1160.0
+Score at iteration 3: 1490.0
+-------------------- Simulated Annealing Greedy --------------------
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 6, 'H', 7, 'V', 'H']
+Area: 1600
+Wiring length: 1270.0
+Score at iteration 0: 1517.5
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 6, 'H', 7, 'H', 'V']
+Area: 1800
+Wiring length: 1330.0
+Score at iteration 1: 1682.5
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 6, 'H', 7, 'H', 'V']
+Area: 1800
+Wiring length: 1330.0
+Score at iteration 2: 1682.5
+Polish expression: [2, 1, 'V', 3, 'H', 4, 'V', 5, 6, 'H', 7, 'H', 'V']
+Area: 1600
+Wiring length: 1210.0
+Score at iteration 3: 1502.5
+Polish expression: [2, 1, 'V', 3, 'H', 4, 'V', 5, 6, 'H', 7, 'H', 'V']
+Area: 1600
+Wiring length: 1210.0
+Score at iteration 4: 1502.5
+-------------------- Simulated Annealing Heuristic --------------------
+Polish expression: [2, 1, 'V', 3, 'H', 4, 'V', 5, 'H', 6, 7, 'H', 'V']
+Area: 1600
+Wiring length: 1200.0
+Score at iteration 0: 1500.0
+Polish expression: [2, 1, 'V', 3, 'H', 4, 'V', 5, 'H', 6, 7, 'H', 'V']
+Area: 1600
+Wiring length: 1200.0
+Score at iteration 1: 1500.0
+Polish expression: [2, 1, 'V', 3, 'H', 4, 'V', 5, 'H', 6, 'H', 7, 'V']
+Area: 1400
+Wiring length: 1150.0
+Score at iteration 2: 1337.5
+Polish expression: [2, 1, 'V', 3, 'H', 4, 'V', 5, 'H', 6, 'H', 7, 'V']
+Area: 1400
+Wiring length: 1150.0
+Score at iteration 3: 1337.5
+-------------------- Simulated Annealing Greedy --------------------
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 6, 'H', 7, 'V', 'H']
+Area: 1600
+Wiring length: 1270.0
+Score at iteration 0: 1517.5
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 6, 'H', 7, 'V', 'H']
+Area: 1600
+Wiring length: 1270.0
+Score at iteration 1: 1517.5
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 6, 'H', 7, 'V', 'H']
+Area: 1600
+Wiring length: 1270.0
+Score at iteration 2: 1517.5
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 'H', 6, 7, 'V', 'H']
+Area: 1600
+Wiring length: 1270.0
+Score at iteration 3: 1517.5
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 'H', 6, 7, 'H', 'V']
+Area: 1800
+Wiring length: 1320.0
+Score at iteration 4: 1680.0
+-------------------- Simulated Annealing Heuristic --------------------
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 'H', 6, 7, 'H', 'V']
+Area: 1800
+Wiring length: 1320.0
+Score at iteration 0: 1680.0
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 'H', 6, 7, 'V', 'H']
+Area: 1600
+Wiring length: 1270.0
+Score at iteration 1: 1517.5
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 'H', 6, 7, 'H', 'V']
+Area: 1800
+Wiring length: 1320.0
+Score at iteration 2: 1680.0
+Polish expression: [1, 2, 'V', 3, 'H', 4, 'V', 5, 'H', 6, 7, 'H', 'V']
+Area: 1800
+Wiring length: 1320.0
+Score at iteration 3: 1680.0
+-------------------- Simulated Annealing Greedy --------------------
+Polish expression: [1, 2, 'V', 3, 'H', 4, 5, 6, 'H', 'V', 'V', 7, 'H']
+Area: 1800
+Wiring length: 1330.0
+Score at iteration 0: 1682.5
+Polish expression: [1, 2, 'V', 3, 'H', 4, 5, 6, 'V', 'H', 'V', 7, 'H']
+Area: 1800
+Wiring length: 1340.0
+Score at iteration 1: 1685.0
+Polish expression: [1, 2, 'V', 3, 'H', 5, 4, 6, 'V', 'H', 'V', 7, 'H']
+Area: 1600
+Wiring length: 1210.0
+Score at iteration 2: 1502.5
+Polish expression: [2, 1, 'V', 3, 'H', 5, 4, 6, 'V', 'H', 'V', 7, 'H']
+Area: 1400
+Wiring length: 1090.0
+Score at iteration 3: 1322.5
+Polish expression: [1, 2, 'V', 3, 'H', 5, 4, 6, 'V', 'H', 'V', 7, 'H']
+Area: 1600
+Wiring length: 1210.0
+Score at iteration 4: 1502.5
+-------------------- Simulated Annealing Heuristic --------------------
+Polish expression: [1, 2, 'V', 3, 'H', 5, 4, 6, 'H', 'V', 'V', 7, 'H']
+Area: 1800
+Wiring length: 1320.0
+Score at iteration 0: 1680.0
+Polish expression: [1, 2, 'V', 3, 'H', 5, 4, 6, 'H', 'V', 'V', 7, 'H']
+Area: 1800
+Wiring length: 1320.0
+Score at iteration 1: 1680.0
+Polish expression: [1, 2, 'V', 3, 'H', 5, 4, 6, 'H', 'V', 'V', 7, 'H']
+Area: 1800
+Wiring length: 1320.0
+Score at iteration 2: 1680.0
+Polish expression: [2, 1, 'V', 3, 'H', 5, 4, 6, 'H', 'V', 'V', 7, 'H']
+Area: 1600
+Wiring length: 1200.0
+Score at iteration 3: 1500.0
